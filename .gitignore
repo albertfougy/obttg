@@ -3,3 +3,5 @@ geckodriver.log
 bin/
 __pycache__
 *.pyc
+.idea
+virtualenv
