@@ -20,9 +20,9 @@
 	python manage.py test
 
 
-** The unit-test/code cycle **
-** Run the unit tests in the terminal. **
+**The unit-test/code cycle 
+**Run the unit tests in the terminal. 
 
-** Make a minimal code change in the editor. **
+**Make a minimal code change in the editor. 
 
-** Repeat! **
+**Repeat!
