@@ -19,13 +19,16 @@ BASE_DIR = os.path.dirname(os.path.dirname(os.path.abspath(__file__)))
 # Quick-start development settings - unsuitable for production
 # See https://docs.djangoproject.com/en/1.11/howto/deployment/checklist/
 
-# SECURITY WARNING: keep the secret key used in production secret!
-SECRET_KEY = 'op8e4k+%6s5&53-6wcm_j*lete_o^o9j#6%afm9-rfyf@tp^^!'
-
-# SECURITY WARNING: don't run with debug turned on in production!
-DEBUG = True
-
-ALLOWED_HOSTS = ['*']
+if 'DJANGO_DEBUG_FALSE' in os.environ:
+    DEBUG = False
+    SECRET_KEY = os.environ['DJANGO_SECRET_KEY']
+    ALLOWED_HOSTS = os.environ['SITENAME']
+else:
+    # SECURITY WARNING: don't run with debug turned on in production!
+    DEBUG = True
+    # SECURITY WARNING: keep the secret key used in production secret!
+    SECRET_KEY = 'op8e4k+%6s5&53-6wcm_j*lete_o^o9j#6%afm9-rfyf@tp^^!'
+    ALLOWED_HOSTS = []
 
 
 # Application definition
@@ -77,7 +80,7 @@ WSGI_APPLICATION = 'superlists.wsgi.application'
 DATABASES = {
     'default': {
         'ENGINE': 'django.db.backends.postgresql_psycopg2',
-        'NAME': os.environ.get('DB_NAME','lists'),
+        'NAME': os.environ.get('DB_NAME',''),
         'USER': os.environ.get('DB_USER',''),
         'PASSWORD': os.environ.get('DB_PASS',''),
         # 'HOST': 'localhost',
