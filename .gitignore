@@ -9,3 +9,4 @@ virtualenv
 /static
 setting_up.txt
 aws-info.txt
+.env
