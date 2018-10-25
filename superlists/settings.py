@@ -30,6 +30,31 @@ else:
     SECRET_KEY = 'op8e4k+%6s5&53-6wcm_j*lete_o^o9j#6%afm9-rfyf@tp^^!'
     ALLOWED_HOSTS = []
 
+LOGGING = {
+    'version': 1,
+    'disable_existing_loggers': False,
+    'filters': {
+        'require_debug_false': {
+            '()': 'django.utils.log.RequireDebugFalse'
+        }
+    },
+    'handlers': {
+        'applogfile': {
+          'level':'DEBUG',
+          'class':'logging.handlers.RotatingFileHandler',
+          'filename': '/var/log/django.log',
+          'maxBytes': 1024*1024*15, # 15MB
+          'backupCount': 10,
+        }
+    },
+    'loggers': {
+        'django.request': {
+            'handlers': ['applogfile'],
+            'level': 'ERROR',
+            'propagate': True,
+        },
+    }
+}
 
 # Application definition
 
@@ -80,11 +105,11 @@ WSGI_APPLICATION = 'superlists.wsgi.application'
 DATABASES = {
     'default': {
         'ENGINE': 'django.db.backends.postgresql_psycopg2',
-        'NAME': os.environ.get('DB_NAME',''),
-        'USER': os.environ.get('DB_USER',''),
-        'PASSWORD': os.environ.get('DB_PASS',''),
-        # 'HOST': 'localhost',
-        # 'PORT': '5432',
+        'NAME': 'superlists',
+        'USER': 'superlists',
+        'PASSWORD': 'Smile:-)4me2',
+        'HOST': 'localhost',
+        'PORT': '5432',
     }
 }
 
