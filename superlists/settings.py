@@ -30,31 +30,31 @@ else:
     SECRET_KEY = 'op8e4k+%6s5&53-6wcm_j*lete_o^o9j#6%afm9-rfyf@tp^^!'
     ALLOWED_HOSTS = []
 
-LOGGING = {
-    'version': 1,
-    'disable_existing_loggers': False,
-    'filters': {
-        'require_debug_false': {
-            '()': 'django.utils.log.RequireDebugFalse'
-        }
-    },
-    'handlers': {
-        'applogfile': {
-          'level':'DEBUG',
-          'class':'logging.handlers.RotatingFileHandler',
-          'filename': '/var/log/django.log',
-          'maxBytes': 1024*1024*15, # 15MB
-          'backupCount': 10,
-        }
-    },
-    'loggers': {
-        'django.request': {
-            'handlers': ['applogfile'],
-            'level': 'ERROR',
-            'propagate': True,
-        },
-    }
-}
+# LOGGING = {
+#     'version': 1,
+#     'disable_existing_loggers': False,
+#     'filters': {
+#         'require_debug_false': {
+#             '()': 'django.utils.log.RequireDebugFalse'
+#         }
+#     },
+#     'handlers': {
+#         'applogfile': {
+#           'level':'DEBUG',
+#           'class':'logging.handlers.RotatingFileHandler',
+#           'filename': '/var/log/django.log',
+#           'maxBytes': 1024*1024*15, # 15MB
+#           'backupCount': 10,
+#         }
+#     },
+#     'loggers': {
+#         'django.request': {
+#             'handlers': ['applogfile'],
+#             'level': 'ERROR',
+#             'propagate': True,
+#         },
+#     }
+# }
 
 # Application definition
 
