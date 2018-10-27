@@ -1,13 +1,13 @@
 from django.shortcuts import redirect, render
-from django.http import HttpResponse
+# from django.http import HttpResponse
 from lists.models import Item, List
 
 def home_page(request):
     return render(request, 'home.html')
 
 # test function to check endpoint
-def test_view(request):
-    return HttpResponse("OK")
+# def test_view(request):
+#     return HttpResponse("OK")
 
 def new_list(request):
     list_ = List.objects.create()
