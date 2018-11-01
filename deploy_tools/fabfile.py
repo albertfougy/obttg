@@ -32,9 +32,6 @@ def _update_virtualenv():
 def _create_or_update_dotenv():
   append('.env', 'DJANGO_DEBUG_FALSE=y')
   append('.env', f'SITENAME={env.host}')
-  append('.env', f'DB_NAME=superlists')
-  append('.env', f'DB_USER=superlists')
-  append('.env', f'DB_PASS=Laugh:-D4me2')
   current_contents = run('cat .env')
   if 'DJANGO_SECRET_KEY' not in current_contents:
     # cryptographically secure pseudo-random number generator (PRNG) S.O. version
