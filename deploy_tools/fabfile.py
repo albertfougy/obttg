@@ -4,6 +4,7 @@ from fabric.api import cd, env, local, run
 
 REPO_URL = 'https://github.com/albertfougy/obttg.git'
 
+
 # "_" convention to indicate that they're not part of "Public API" of fabfile.py
 def deploy():
   site_folder = f'/home/{env.user}/sites/{env.host}'
