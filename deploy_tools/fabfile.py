@@ -5,16 +5,11 @@ from fabric.operations import _prefix_commands, _prefix_env_vars, require
 
 REPO_URL = 'https://github.com/albertfougy/obttg.git'
 
-
 STAGES = {
     'test': {
-#    'key_filename': ['~/.ssh/stygiangray.pem'],
-#    'host_string': 'ubuntu@ec2-54-242-247-146.compute-1.amazonaws.com',
     'code_dir': '/home/ubuntu/sites/superlists-staging.stygiangray.com',
     },
     'production': {
-#        'key_filename': ['~/.ssh/stygiangray.pem'],
-#        'host_string': 'ubuntu@ec2-54-242-247-146.compute-1.amazonaws.com',
         'code_dir': '/home/ubuntu/sites/superlists.stygiangray.com',
     },
 }
@@ -22,9 +17,9 @@ STAGES = {
 
 
 def stage_set(stage_name='test'):
-    key_filename = ['~/.ssh/stygiangray.pem']
-    host_string = 'ubuntu@ec2-54-242-247-146.compute-1.amazonaws.com'
-    env.stage = stage_name , key_filename , host_string
+    env.key_filename = ['~/.ssh/stygiangray.pem']
+    env.host_string = 'ubuntu@ec2-54-242-247-146.compute-1.amazonaws.com'
+    env.stage = stage_name
     for option, value in STAGES[env.stage].items():
         setattr(env, option, value)
 
@@ -46,7 +41,6 @@ def deploy():
   '''
   require ('stage', provided_by=(test,production))
   site_folder = env.code_dir
-  # site_folder = f'/home/{env.user}/sites/{env.host}'
   run(f'mkdir -p {site_folder}')
   with cd(site_folder):
     _get_latest_source()
