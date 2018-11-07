@@ -8,22 +8,23 @@ REPO_URL = 'https://github.com/albertfougy/obttg.git'
 
 STAGES = {
     'test': {
-    'key_filename': ['~/.ssh/stygiangray.pem'],
-    'user': 'ubuntu',
-    'hosts': ['ec2-54-242-247-146.compute-1.amazonaws.com'],
+#    'key_filename': ['~/.ssh/stygiangray.pem'],
+#    'host_string': 'ubuntu@ec2-54-242-247-146.compute-1.amazonaws.com',
     'code_dir': '/home/ubuntu/sites/superlists-staging.stygiangray.com',
     },
     'production': {
-        'key_filename': ['~/.ssh/stygiangray.pem'],
-        'user': 'ubuntu',
-        'hosts': ['ec2-54-242-247-146.compute-1.amazonaws.com'],
+#        'key_filename': ['~/.ssh/stygiangray.pem'],
+#        'host_string': 'ubuntu@ec2-54-242-247-146.compute-1.amazonaws.com',
         'code_dir': '/home/ubuntu/sites/superlists.stygiangray.com',
     },
 }
 
 
+
 def stage_set(stage_name='test'):
-    env.stage = stage_name
+    key_filename = ['~/.ssh/stygiangray.pem']
+    host_string = 'ubuntu@ec2-54-242-247-146.compute-1.amazonaws.com'
+    env.stage = stage_name , key_filename , host_string
     for option, value in STAGES[env.stage].items():
         setattr(env, option, value)
 
