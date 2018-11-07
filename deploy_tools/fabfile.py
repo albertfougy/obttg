@@ -1,13 +1,51 @@
 import random
 from fabric.contrib.files import append, exists
-from fabric.api import cd, env, local, run
+from fabric.api import run, local, env, settings, cd, task, put, execute
+from fabric.operations import _prefix_commands, _prefix_env_vars, require
 
 REPO_URL = 'https://github.com/albertfougy/obttg.git'
 
 
+STAGES = {
+    'test': {
+    'key_filename': ['~/.ssh/stygiangray.pem'],
+    'user': 'ubuntu',
+    'host': ['ec2-54-242-247-146.compute-1.amazonaws.com'],
+    'code_dir': '/home/ubuntu/sites/superlists-staging.stygiangray.com',
+    },
+    'production': {
+        'key_filename': ['~/.ssh/stygiangray.pem'],
+        'user': 'ubuntu',
+        'host': ['ec2-54-242-247-146.compute-1.amazonaws.com'],
+        'code_dir': '/home/ubuntu/sites/superlists.stygiangray.com',
+    },
+}
+
+
+def stage_set(stage_name='test'):
+    env.stage = stage_name
+    for option, value in STAGES[env.stage].items():
+        setattr(env, option, value)
+
+@task
+def production():
+    stage_set('production')
+
+@task
+def test():
+    stage_set('test')
+
+
+
 # "_" convention to indicate that they're not part of "Public API" of fabfile.py
+@task
 def deploy():
-  site_folder = f'/home/{env.user}/sites/{env.host}'
+  '''
+  Deploy the project.
+  '''
+ require ('stage', provided_by=(test,production)) # env.stage
+  site_folder = env.code_dir
+  # site_folder = f'/home/{env.user}/sites/{env.host}'
   run(f'mkdir -p {site_folder}')
   with cd(site_folder):
     _get_latest_source()
