@@ -18,7 +18,8 @@ STAGES = {
 
 def stage_set(stage_name='test'):
     env.key_filename = ['~/.ssh/stygiangray.pem']
-    env.host_string = 'ubuntu@ec2-54-242-247-146.compute-1.amazonaws.com'
+    env.user = 'ubuntu'
+    env.host='ec2-54-242-247-146.compute-1.amazonaws.com'
     env.stage = stage_name
     for option, value in STAGES[env.stage].items():
         setattr(env, option, value)
