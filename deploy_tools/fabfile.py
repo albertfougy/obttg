@@ -67,16 +67,9 @@ def _create_or_update_dotenv():
   append('.env', f'SITENAME={env.host}')
   current_contents = run('cat .env')
   if 'DJANGO_SECRET_KEY' not in current_contents:
-    # cryptographically secure pseudo-random number generator (PRNG) S.O. version
-    # https://stackoverflow.com/a/23728630
-    new_secret = ''.join(random.SystemRandom()
-                   .choice(string.ascii_uppercase + string.digits)
-                   for _ in range(N)
-                   )
-    # obttg version
-    # ''.join(random.SystemRandom().choices(
-    #   'abcdefghijklmnopqrstuvwxyz0123456789', k=50
-    # ))
+    new_secret = ''.join(random.SystemRandom().choices(
+      'abcdefghijklmnopqrstuvwxyz0123456789', k=50
+    ))
     append('.env', f'DJANGO_SECRET_KEY={new_secret}')
 
 def _update_static_files():
