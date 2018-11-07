@@ -10,13 +10,13 @@ STAGES = {
     'test': {
     'key_filename': ['~/.ssh/stygiangray.pem'],
     'user': 'ubuntu',
-    'host': ['ec2-54-242-247-146.compute-1.amazonaws.com'],
+    'hosts': ['ec2-54-242-247-146.compute-1.amazonaws.com'],
     'code_dir': '/home/ubuntu/sites/superlists-staging.stygiangray.com',
     },
     'production': {
         'key_filename': ['~/.ssh/stygiangray.pem'],
         'user': 'ubuntu',
-        'host': ['ec2-54-242-247-146.compute-1.amazonaws.com'],
+        'hosts': ['ec2-54-242-247-146.compute-1.amazonaws.com'],
         'code_dir': '/home/ubuntu/sites/superlists.stygiangray.com',
     },
 }
