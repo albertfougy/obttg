@@ -43,7 +43,7 @@ def deploy():
   '''
   Deploy the project.
   '''
- require ('stage', provided_by=(test,production)) # env.stage
+  require ('stage', provided_by=(test,production))
   site_folder = env.code_dir
   # site_folder = f'/home/{env.user}/sites/{env.host}'
   run(f'mkdir -p {site_folder}')
