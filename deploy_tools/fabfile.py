@@ -19,7 +19,7 @@ STAGES = {
 def stage_set(stage_name='test'):
     env.key_filename = ['~/.ssh/stygiangray.pem']
     env.user = 'ubuntu'
-    env.host=['ec2-54-242-247-146.compute-1.amazonaws.com']
+    env.hosts=['ec2-54-242-247-146.compute-1.amazonaws.com']
     env.stage = stage_name
     for option, value in STAGES[env.stage].items():
         setattr(env, option, value)
@@ -65,7 +65,7 @@ def _update_virtualenv():
 
 def _create_or_update_dotenv():
   append('.env', 'DJANGO_DEBUG_FALSE=y')
-  append('.env', f'SITENAME={env.host}')
+  append('.env', f'SITENAME={env.hosts}')
   current_contents = run('cat .env')
   if 'DJANGO_SECRET_KEY' not in current_contents:
     new_secret = ''.join(random.SystemRandom().choices(
