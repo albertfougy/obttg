@@ -11,3 +11,4 @@ setting_up.txt
 aws-info.txt
 .env
 troubleshooting_logging.txt
+env_credentials.py
