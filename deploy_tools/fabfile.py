@@ -68,6 +68,7 @@ def _update_virtualenv():
   run('./virtualenv/bin/pip install -r requirements.txt')
 
 def _create_or_update_dotenv():
+  append('.env', 'DJANGO_DEBUG_FALSE=y')
   for key, value in configs.items():
     append('.env', f'{key}={value}\n')
 
