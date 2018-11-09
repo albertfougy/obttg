@@ -1,4 +1,5 @@
 import random
+from deploy_tools.env_credentials import configs
 from fabric.contrib.files import append, exists
 from fabric.api import run, local, env, settings, cd, task, put, execute
 from fabric.operations import _prefix_commands, _prefix_env_vars, require
@@ -7,10 +8,12 @@ REPO_URL = 'https://github.com/albertfougy/obttg.git'
 
 STAGES = {
     'test': {
-    'code_dir': '/home/ubuntu/sites/superlists-staging.stygiangray.com',
+        'code_dir': '/home/ubuntu/sites/superlists-staging.stygiangray.com',
+        'site_host':'superlists-staging.stygiangray.com'
     },
     'production': {
         'code_dir': '/home/ubuntu/sites/superlists.stygiangray.com',
+        'site_host':'superlists.stygiangray.com'
     },
 }
 
@@ -19,6 +22,7 @@ STAGES = {
 def stage_set(stage_name='test'):
     env.key_filename = ['~/.ssh/stygiangray.pem']
     env.user = 'ubuntu'
+    # THIS IS THE HOST INFO AS REQUIRED BY AWS EC2, THIS IS DIFFERENT FROM FQDN
     env.hosts=['ec2-54-242-247-146.compute-1.amazonaws.com']
     env.stage = stage_name
     for option, value in STAGES[env.stage].items():
@@ -64,14 +68,17 @@ def _update_virtualenv():
   run('./virtualenv/bin/pip install -r requirements.txt')
 
 def _create_or_update_dotenv():
-  append('.env', 'DJANGO_DEBUG_FALSE=y')
-  append('.env', f'SITENAME={env.hosts}')
+  for key, value in configs.items():
+    append('.env', f'{key}={value}\n')
+
+  append('.env', f'SITENAME={env.site_host}')
   current_contents = run('cat .env')
   if 'DJANGO_SECRET_KEY' not in current_contents:
     new_secret = ''.join(random.SystemRandom().choices(
       'abcdefghijklmnopqrstuvwxyz0123456789', k=50
     ))
     append('.env', f'DJANGO_SECRET_KEY={new_secret}')
+
 
 def _update_static_files():
   run('./virtualenv/bin/python manage.py collectstatic --noinput')
