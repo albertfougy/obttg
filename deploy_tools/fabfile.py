@@ -71,6 +71,7 @@ def _create_or_update_dotenv():
   for key, value in configs.items():
     append('.env', f'{key}={value}\n')
 
+  require ('stage', provided_by=(test,production))
   append('.env', f'SITENAME={env.site_host}')
   current_contents = run('cat .env')
   if 'DJANGO_SECRET_KEY' not in current_contents:
