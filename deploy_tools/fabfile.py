@@ -1,5 +1,5 @@
 import random
-from deploy_tools.env_credentials import configs
+from env_credentials import configs
 from fabric.contrib.files import append, exists
 from fabric.api import run, local, env, settings, cd, task, put, execute
 from fabric.operations import _prefix_commands, _prefix_env_vars, require
