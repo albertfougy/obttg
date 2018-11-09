@@ -9,11 +9,11 @@ REPO_URL = 'https://github.com/albertfougy/obttg.git'
 STAGES = {
     'test': {
         'code_dir': '/home/ubuntu/sites/superlists-staging.stygiangray.com',
-        'site_host':'superlists-staging.stygiangray.com'
+        'site_host':['superlists-staging.stygiangray.com']
     },
     'production': {
         'code_dir': '/home/ubuntu/sites/superlists.stygiangray.com',
-        'site_host':'superlists.stygiangray.com'
+        'site_host':['superlists.stygiangray.com']
     },
 }
 
