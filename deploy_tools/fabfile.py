@@ -9,11 +9,11 @@ REPO_URL = 'https://github.com/albertfougy/obttg.git'
 STAGES = {
     'test': {
         'code_dir': '/home/ubuntu/sites/superlists-staging.stygiangray.com',
-        'site_host':'superlists-staging.stygiangray.com'
+        'host_string':'superlists-staging.stygiangray.com'
     },
     'production': {
         'code_dir': '/home/ubuntu/sites/superlists.stygiangray.com',
-        'site_host':'superlists.stygiangray.com'
+        'host_string':'superlists.stygiangray.com'
     },
 }
 
@@ -45,6 +45,7 @@ def deploy():
   Deploy the project.
   '''
   require ('stage', provided_by=(test,production))
+  host_string = env.host_string
   site_folder = env.code_dir
   run(f'mkdir -p {site_folder}')
   with cd(site_folder):
@@ -71,7 +72,7 @@ def _create_or_update_dotenv():
   for key, value in configs.items():
     append('.env', f'{key}={value}\n')
 
-  append('.env', f'SITENAME={env.site_host}')
+  append('.env', f'SITENAME={host_string}')
   current_contents = run('cat .env')
   if 'DJANGO_SECRET_KEY' not in current_contents:
     new_secret = ''.join(random.SystemRandom().choices(
