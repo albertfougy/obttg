@@ -45,7 +45,6 @@ def deploy():
   Deploy the project.
   '''
   require ('stage', provided_by=(test,production))
-  host_string = env.host_string
   site_folder = env.code_dir
   run(f'mkdir -p {site_folder}')
   with cd(site_folder):
@@ -69,10 +68,10 @@ def _update_virtualenv():
   run('./virtualenv/bin/pip install -r requirements.txt')
 
 def _create_or_update_dotenv():
+  require ('stage', provided_by=(test,production))
   for key, value in configs.items():
     append('.env', f'{key}={value}\n')
-
-  append('.env', f'SITENAME={env.host_string}')
+#  append('.env', f'SITENAME={env.host_string}')
   current_contents = run('cat .env')
   if 'DJANGO_SECRET_KEY' not in current_contents:
     new_secret = ''.join(random.SystemRandom().choices(
