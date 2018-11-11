@@ -72,7 +72,7 @@ def _create_or_update_dotenv():
   for key, value in configs.items():
     append('.env', f'{key}={value}\n')
 
-  append('.env', f'SITENAME={host_string}')
+  append('.env', f'SITENAME={env.host_string}')
   current_contents = run('cat .env')
   if 'DJANGO_SECRET_KEY' not in current_contents:
     new_secret = ''.join(random.SystemRandom().choices(
