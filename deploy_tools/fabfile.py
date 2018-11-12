@@ -4,12 +4,13 @@ from fabric.contrib.files import append, exists
 from fabric.api import run, local, env, settings, cd, task, put, execute
 from fabric.operations import _prefix_commands, _prefix_env_vars, require
 
+
 REPO_URL = 'https://github.com/albertfougy/obttg.git'
 
 STAGES = {
     'test': {
         'code_dir': '/home/ubuntu/sites/superlists-staging.stygiangray.com',
-        'host_':'superlists-staging.stygiangray.com',
+        'host_':'superlists-staging.stygiangray.com'
     },
     'production': {
         'code_dir': '/home/ubuntu/sites/superlists.stygiangray.com',
@@ -69,16 +70,16 @@ def _update_virtualenv():
 
 
 def _create_or_update_dotenv():
-  require ('stage', provided_by=(test,production))
-  for key, value in configs.items():
-    append('.env', f'{key}={value}')
-    append('.env', f'SITENAME={env.host_}')
-  current_contents = run('cat .env')
-  if 'DJANGO_SECRET_KEY' not in current_contents:
-    new_secret = ''.join(random.SystemRandom().choices(
-      'abcdefghijklmnopqrstuvwxyz0123456789', k=50
-    ))
-    append('.env', f'DJANGO_SECRET_KEY={new_secret}')
+    require ('stage', provided_by=(test,production))
+    for key, value in configs.items():
+        append('.env', f'{key}={value}')
+    append('.env',f'SITENAME={env.host_}')
+    current_contents = run('cat .env')
+    if 'DJANGO_SECRET_KEY' not in current_contents:
+        new_secret = ''.join(random.SystemRandom().choices(
+            'abcdefghijklmnopqrstuvwxyz0123456789', k=50
+        ))
+        append('.env', f'DJANGO_SECRET_KEY={new_secret}')
 
 def _update_static_files():
   run('./virtualenv/bin/python manage.py collectstatic --noinput')
