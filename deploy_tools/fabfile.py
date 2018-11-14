@@ -1,7 +1,7 @@
 import random
 from env_credentials import configs
 from fabric.contrib.files import append, exists
-from fabric.api import run, local, env, settings, cd, task, put, execute
+from fabric.api import run, local, env, prefix, settings, cd, task, put, execute
 from fabric.operations import _prefix_commands, _prefix_env_vars, require
 
 
@@ -10,14 +10,13 @@ REPO_URL = 'https://github.com/albertfougy/obttg.git'
 STAGES = {
     'test': {
         'code_dir': '/home/ubuntu/sites/superlists-staging.stygiangray.com',
-        'host_':'superlists-staging.stygiangray.com'
+        'SITENAME':'superlists-staging.stygiangray.com'
     },
     'production': {
         'code_dir': '/home/ubuntu/sites/superlists.stygiangray.com',
-        'host_':'superlists.stygiangray.com'
+        'SITENAME':'superlists.stygiangray.com'
     },
 }
-
 
 
 def stage_set(stage_name='test'):
@@ -26,8 +25,21 @@ def stage_set(stage_name='test'):
     # THIS IS THE HOST INFO AS REQUIRED BY AWS EC2, THIS IS DIFFERENT FROM FQDN
     env.hosts=['ec2-54-242-247-146.compute-1.amazonaws.com']
     env.stage = stage_name
+
     for option, value in STAGES[env.stage].items():
         setattr(env, option, value)
+
+def run_with_env(cmd):
+  prefix_pairs = {
+    'SITENAME': env.SITENAME
+  }
+
+  prefix_vals = ""
+  for name, var in prefix_pairs.items():
+    prefix_vals += "export {}=\"{}\" ".format(name, var)
+
+  with prefix(prefix_vals.strip()):
+    run(cmd)
 
 @task
 def production():
@@ -36,8 +48,6 @@ def production():
 @task
 def test():
     stage_set('test')
-
-
 
 # "_" convention to indicate that they're not part of "Public API" of fabfile.py
 @task
@@ -73,7 +83,7 @@ def _create_or_update_dotenv():
     require ('stage', provided_by=(test,production))
     for key, value in configs.items():
         append('.env', f'{key}={value}')
-    append('.env',f'SITENAME={env.host_}')
+    append('.env',f'SITENAME={env.SITENAME}')
     current_contents = run('cat .env')
     if 'DJANGO_SECRET_KEY' not in current_contents:
         new_secret = ''.join(random.SystemRandom().choices(
@@ -82,7 +92,8 @@ def _create_or_update_dotenv():
         append('.env', f'DJANGO_SECRET_KEY={new_secret}')
 
 def _update_static_files():
-  run('./virtualenv/bin/python manage.py collectstatic --noinput')
+  run_with_env('./virtualenv/bin/python manage.py collectstatic --noinput')
 
 def _update_database():
-  run('./virtualenv/bin/python manage.py migrate --noinput')
+  run_with_env('./virtualenv/bin/python manage.py migrate --noinput')
+
