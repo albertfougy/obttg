@@ -25,7 +25,6 @@ def stage_set(stage_name='test'):
     # THIS IS THE HOST INFO AS REQUIRED BY AWS EC2, THIS IS DIFFERENT FROM FQDN
     env.hosts=['ec2-54-242-247-146.compute-1.amazonaws.com']
     env.stage = stage_name
-
     for option, value in STAGES[env.stage].items():
         setattr(env, option, value)
 
@@ -33,11 +32,9 @@ def run_with_env(cmd):
   prefix_pairs = {
     'SITENAME': env.SITENAME
   }
-
   prefix_vals = ""
   for name, var in prefix_pairs.items():
     prefix_vals += "export {}=\"{}\" ".format(name, var)
-
   with prefix(prefix_vals.strip()):
     run(cmd)
 
