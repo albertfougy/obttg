@@ -7,6 +7,7 @@ class LayoutAndStylingTest(FunctionalTest):
     def test_layout_and_styling(self):
         # Albert goes to the home page
         self.browser.get(self.live_server_url)
+        # self.browser.get('http://127.0.0.1:8000/')
         self.browser.set_window_size(1024, 768)
 
         # He notices the input box is nicely centered
