@@ -12,3 +12,7 @@ aws-info.txt
 .env
 troubleshooting_logging.txt
 env_credentials.py
+.DS_Store
+functional_tests/.DS_Store
+lists/.DS_Store
+lists/templates/.DS_Store
