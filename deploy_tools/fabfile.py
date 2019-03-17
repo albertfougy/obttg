@@ -20,7 +20,7 @@ STAGES = {
 
 
 def stage_set(stage_name='test'):
-    env.key_filename = ['~/.ssh/stygiangray.pem']
+    env.key_filename = ['~/.ssh/stygian_gray.pem']
     env.user = 'ubuntu'
     # THIS IS THE HOST INFO AS REQUIRED BY AWS EC2, THIS IS DIFFERENT FROM FQDN
     env.hosts=['ec2-54-242-247-146.compute-1.amazonaws.com']
