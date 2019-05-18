@@ -29,6 +29,15 @@ else:
     # SECURITY WARNING: keep the secret key used in production secret!
     SECRET_KEY = 'op8e4k+%6s5&53-6wcm_j*lete_o^o9j#6%afm9-rfyf@tp^^!'
     ALLOWED_HOSTS=[]
+# Email settings
+
+EMAIL_HOST = 'smtp.gmail.com'
+EMAIL_HOST_USER = 'obeythetestinggoat@gmail.com'
+EMAIL_HOST_PASSWORD = os.environ.get('EMAIL_PASSWORD')
+EMAIL_PORT = 587
+EMAIL_USE_TLS = True
+
+
 
 # LOGGING = {
 #     'version': 1,
